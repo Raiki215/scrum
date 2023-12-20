@@ -30,16 +30,23 @@ class MainScene extends Phaser.Scene {
         this.taro = taro;
         this.hanako = hanako;
 
+        let staticGroup = this.physics.add.staticGroup();
         for(let i=0; i<5; i++){
             let  randx = Phaser.Math.Between(25, 775) ;  // y は　50～750の間の値
             let randy =  Phaser.Math.Between(25, 425) ;  // y は　50～200の間の値
-            this.physics.add.image(randx, randy , 'orange');
+            staticGroup.create(randx, randy , 'orange');
         }
         //ランダムな場所に生成
         for(let i=0; i<5; i++){
             let  randa = Phaser.Math.Between(25, 775) ;  // y は　50～750の間の値
             let randb =  Phaser.Math.Between(25, 425) ;  // y は　50～200の間の値
-            this.physics.add.image(randa, randb , 'apple');
+            staticGroup.create(randa, randb , 'apple');
+        }
+
+        this.physics.add.overlap(taro, staticGroup, collectfruit, null, this);
+        this.physics.add.overlap(hanako, staticGroup, collectfruit, null, this);
+        function collectfruit(){
+            this.physics.pause();
         }
 
     }
